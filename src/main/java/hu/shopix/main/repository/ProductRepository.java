@@ -11,6 +11,6 @@ import hu.shopix.main.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
     Page<Product> findByActiveTrue(Pageable pageable);
-    Page<Product> findByNameContainingIgnoreCase(String q, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
 
