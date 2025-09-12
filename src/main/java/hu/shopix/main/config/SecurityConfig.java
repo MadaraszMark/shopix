@@ -15,25 +15,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults())
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Swagger nyitva
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
-                // Auth végpontok nyitva (regisztráció, login)
-                .requestMatchers("/auth/**").permitAll()
-                // Publikus olvasó végpontok
-                .requestMatchers(HttpMethod.GET, "/categories/**", "/products/**").permitAll()
-                // minden más majd authentikációt igényel
-                .anyRequest().authenticated()
-            );
-        // JWT filtert később tesszük be (amikor megvan a token kezelő)
-        return http.build();
-    }
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .cors(cors -> cors.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .anyRequest().permitAll()   // <-- ideiglenesen MINDENT kiengedek
+	        );
+	    return http.build();
+	}
 
     @Bean
     PasswordEncoder passwordEncoder() {

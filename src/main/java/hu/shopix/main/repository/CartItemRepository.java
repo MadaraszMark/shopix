@@ -12,6 +12,7 @@ import hu.shopix.main.model.CartItem;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 	Page<CartItem> findByCartId(Long cartId, Pageable pageable);
-	Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);	
+	Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);
+	void deleteByCartIdAndProductId(Long cartId, Long productId); // Törlés
 }
 

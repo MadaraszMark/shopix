@@ -14,16 +14,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(description = "Kosárhoz a termékek hozzáadásához szükséges DTO")
-public class AddCartItemRequest {
+@Schema(description = "Kosárhoz módosításához szükséges DTO")
+public class CartItemUpdateRequest {
 	
 	@NotNull
     @Schema(description = "A termék ID-ja", example = "11")
 	private Long productId;
 	
 	@NotNull
-	@Min(1)
-	@Schema(description = "A mennyiség (minimum 1)", example = "2")
+	@Min(0)
+	@Schema(description = "A mennyiség (0 = törlés, vagy legalább 1)", example = "2")
 	private Integer quantity;
-
+	
 }
