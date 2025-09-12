@@ -27,6 +27,7 @@ A kód Postman segítségével tesztelhető frontend nélkül.
   - Spring Boot alkalmazás indítása
   - Adatbázis kapcsolat (MySQL)
   - Global Exception Handling
+  - SecurityConfig (Swagger, publikus endpointok engedélyezve)
 
 - **Modellek**
   - Address, Cart, CartItem, Category, Inventory, Order, OrderItem, Payment, Product, User
@@ -48,11 +49,18 @@ A kód Postman segítségével tesztelhető frontend nélkül.
   - Controller + Swagger dokumentáció
   - Tesztadatok (5 termék)
 
+- **Cart modul**
+  - DTO-k (CartResponse, CartItemResponse, AddCartItemRequest, CartItemUpdateRequest)
+  - Mapper
+  - Repository-k bővítve
+  - Service: kosár lekérés, termék hozzáadás, frissítés (mennyiség → update/törlés), teljes kiürítés
+  - Controller: `/cart` endpointok (by-user, add, update, clear)
+  - Postman tesztek sikeresen lefutottak
+
 ---
 
 ## Következő lépések:
 - User regisztráció & autentikáció (Spring Security + JWT)
-- Kosár (Cart, CartItem) műveletek
 - Rendelések kezelése
 - Fizetések (mock integration)
 - Swagger bővítése és végpontok részletes dokumentálása
