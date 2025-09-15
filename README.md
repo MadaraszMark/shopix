@@ -57,10 +57,12 @@ A kód Postman segítségével tesztelhető frontend nélkül.
   - Controller: `/cart` endpointok (by-user, add, update, clear)
   - Postman tesztek sikeresen lefutottak
 
+- **Security  modul**
+  - User regisztráció & autentikáció (Spring Security + JWT) 
+
 ---
 
 ## Következő lépések:
-- User regisztráció & autentikáció (Spring Security + JWT)
 - Rendelések kezelése
 - Fizetések (mock integration)
 - Swagger bővítése és végpontok részletes dokumentálása
