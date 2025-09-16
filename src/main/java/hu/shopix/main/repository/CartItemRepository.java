@@ -5,6 +5,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import hu.shopix.main.model.CartItem;
@@ -14,5 +17,13 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 	Page<CartItem> findByCartId(Long cartId, Pageable pageable);
 	Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);
 	void deleteByCartIdAndProductId(Long cartId, Long productId); // Törlés
+	
+    @Query("select ci from CartItem ci where ci.id = :id and ci.cart.user.id = :userId")
+    Optional<CartItem> findOwnedItem(@Param("id") Long id, @Param("userId") Long userId);
+
+    @Modifying
+    @Query("delete from CartItem ci where ci.cart.user.id = :userId")
+    int deleteAllByUserId(@Param("userId") Long userId);
+	
 }
 
