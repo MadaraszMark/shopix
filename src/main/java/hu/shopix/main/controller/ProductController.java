@@ -1,7 +1,6 @@
 package hu.shopix.main.controller;
 
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +14,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/products")
 @Tag(name = "Shopix - Termékek", description = "Publikus termékek")
 public class ProductController {
 	
 	private final ProductService  productService;
-
-	@Autowired
-	public ProductController(ProductService productService) { // Az @Autowired megmondja a Springnek, hogy a konstruktor paramétereit automatikusan adja be a Spring contextből. Konstruktor injekció.
-		this.productService = productService;
-	}
 	
 	@GetMapping
     @Operation(summary = "Összes termék lekérése", description = "Visszaadja a termékek listáját")

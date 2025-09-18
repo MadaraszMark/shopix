@@ -10,17 +10,15 @@ import hu.shopix.main.exception.ResourceNotFoundException;
 import hu.shopix.main.mapper.CategoryMapper;
 import hu.shopix.main.model.Category;
 import hu.shopix.main.repository.CategoryRepository;
+import hu.shopix.main.security.CurrentUser;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper mapper;
-
-    public CategoryService(CategoryRepository categoryRepository, CategoryMapper mapper) {
-        this.categoryRepository = categoryRepository;
-        this.mapper = mapper;
-    }
 
     @Transactional(readOnly = true) // Konzisztencia - optimalizálás
     public Page<CategoryResponse> getAllCategories(Pageable pageable) {

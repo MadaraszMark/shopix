@@ -1,6 +1,5 @@
 package hu.shopix.main.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +13,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/categories")
 @Tag(name = "Shopix - Kategóriák", description = "Publikus kategória végpontok")
 public class CategoryController {
 	
 	private final CategoryService service;
-	
-	@Autowired
-	public CategoryController(CategoryService service) { // // Az @Autowired megmondja a Springnek, hogy a konstruktor paramétereit automatikusan adja be a Spring contextből. Konstruktor injekció.
-		this.service = service;
-	}
 	
 	@GetMapping
     @Operation(summary = "Összes kategória lekérése", description = "Visszaadja a kategóriák listáját lapozással és rendezéssel.")

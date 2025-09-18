@@ -10,17 +10,14 @@ import hu.shopix.main.exception.ResourceNotFoundException;
 import hu.shopix.main.mapper.ProductMapper;
 import hu.shopix.main.model.Product;
 import hu.shopix.main.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 	
 	private final ProductRepository productRepository;
 	private final ProductMapper mapper;
-	
-	public ProductService(ProductRepository productRepository, ProductMapper mapper) {
-		this.productRepository = productRepository;
-		this.mapper = mapper;
-	}
 	
 	@Transactional(readOnly = true) // Optimalizálás
 	public Page<ProductResponse> getAllProducts(Pageable pageable){
