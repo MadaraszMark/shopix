@@ -10,7 +10,6 @@ import hu.shopix.main.exception.ResourceNotFoundException;
 import hu.shopix.main.mapper.CategoryMapper;
 import hu.shopix.main.model.Category;
 import hu.shopix.main.repository.CategoryRepository;
-import hu.shopix.main.security.CurrentUser;
 import lombok.RequiredArgsConstructor;
 
 @Service

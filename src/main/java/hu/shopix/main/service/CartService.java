@@ -39,28 +39,32 @@ public class CartService {
 	
 	@Transactional
 	public CartResponse addItem(Long userId, AddCartItemRequest request) {
-		if (request.getQuantity() == null || request.getQuantity() <= 0) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A mennyiségnek pozitívnak kell lennie.");
-		}
+	    if (request.getQuantity() == null || request.getQuantity() <= 0) {
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A mennyiségnek pozitívnak kell lennie.");
+	    }
 
-		Cart cart = getOrCreateOpenCart(userId);
-		Product product = productRepository.findById(request.getProductId())
-				.orElseThrow(() -> new ResourceNotFoundException("Termék", request.getProductId()));
-		
-		CartItem item = cartItemRepository
-				.findByCartIdAndProductId(cart.getId(), product.getId())
-				.orElseGet(() -> cartItemRepository.save(CartItem.builder()
-						.cart(cart)
-						.product(product)
-						.quantity(request.getQuantity())
-						.unitPriceSnapshot(product.getPrice())
-						.build()));
+	    Cart cart = getOrCreateOpenCart(userId);
+	    Product product = productRepository.findById(request.getProductId())
+	            .orElseThrow(() -> new ResourceNotFoundException("Termék", request.getProductId()));
 
-		item.setQuantity(item.getQuantity() + request.getQuantity());
-		cartItemRepository.save(item);
-		
-		return mapper.toResponseCart(cartRepository.findById(cart.getId()).orElse(cart));
+	    CartItem item = cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId()).orElse(null);
+
+	    if (item == null) {
+	        item = CartItem.builder()
+	                .cart(cart)
+	                .product(product)
+	                .quantity(request.getQuantity())
+	                .unitPriceSnapshot(product.getPrice())
+	                .build();
+	    } else {
+	        item.setQuantity(item.getQuantity() + request.getQuantity());
+	    }
+
+	    cartItemRepository.save(item);
+
+	    return mapper.toResponseCart(cartRepository.findById(cart.getId()).orElse(cart));
 	}
+
 	
 	@Transactional
 	public CartResponse updateItem(Long userId, CartItemUpdateRequest request) {
