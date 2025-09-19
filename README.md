@@ -57,14 +57,36 @@ A kód Postman segítségével tesztelhető frontend nélkül.
   - Controller: `/cart` endpointok (by-user, add, update, clear)
   - Postman tesztek sikeresen lefutottak
 
-- **Security  modul**
+- **Security modul**
   - User regisztráció & autentikáció (Spring Security + JWT) 
+
+- **Order modul**
+  - DTO-k (OrderResponse, OrderItemResponse, CreateOrderRequest)
+  - Mapper
+  - Service: rendelés létrehozása kosárból (shipping/billing cím snapshot-olva), rendelés listázás, rendelés lekérés azonosító alapján
+  - Controller: `/orders` endpointok (create, my, getById)
+  - Order entitás bővítve cím snapshot mezőkkel (shipping/billing street/city/zip/country)
+  - Cart lezárása rendelés létrehozásakor
+
+- **Payment modul**
+  - DTO (PaymentResponse)
+  - Mapper
+  - Service: fizetés mock-kal, providerRef = `MOCK-{orderId}`
+  - Fizetés után a rendelés státusza `PAID` lesz
+  - Idempotens működés: ha már létezik Payment, ugyanazt adja vissza, és a rendelés státuszát garantáltan `PAID`-re állítja
+  - Controller: `/orders/{id}/pay`
+
+- **Address modul**
+  - DTO-k (AddressRequest, AddressResponse)
+  - Mapper
+  - Service: saját címek kezelése
+  - Controller: `/addresses/me` CRUD végpontok
+  - Validációk és tulajdon-ellenőrzés
 
 ---
 
 ## Következő lépések:
-- Rendelések kezelése
-- Fizetések (mock integration)
 - Swagger bővítése és végpontok részletes dokumentálása
 - Unit és integrációs tesztek írása
-
+- Inventory modul bevezetése (készletkezelés)
+- Admin funkciók (pl. rendelés státuszok kezelése)
