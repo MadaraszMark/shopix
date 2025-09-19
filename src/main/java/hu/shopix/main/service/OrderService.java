@@ -42,37 +42,35 @@ public class OrderService {
 
     @Transactional
     public OrderResponse createFromCart(Long userId, CreateOrderRequest request) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Felhasználó", userId));
+        if (request == null || request.getShippingAddressId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A szállítási cím megadása kötelező.");
+        }
 
-        Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN").orElseThrow(() -> new ResourceNotFoundException("Kosár (OPEN)", userId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Felhasználó", userId));
+
+        Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN")
+                .orElseThrow(() -> new ResourceNotFoundException("Kosár (OPEN)", userId));
 
         List<CartItem> cartItems = cart.getItems();
         if (cartItems == null || cartItems.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A kosár üres, nem hozható létre rendelés.");
         }
 
-        Address shipping = null;
-        Address billing = null;
-
-        if (request != null) {
-            if (request.getShippingAddressId() != null) {
-                shipping = addressRepository.findById(request.getShippingAddressId()).orElseThrow(() -> new ResourceNotFoundException("Szállítási cím", request.getShippingAddressId()));
-
-                if (!shipping.getUser().getId().equals(userId)) {
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "A szállítási cím nem a tiéd.");
-                }
-            }
-
-            if (request.getBillingAddressId() != null) {
-                billing = addressRepository.findById(request.getBillingAddressId()).orElseThrow(() -> new ResourceNotFoundException("Számlázási cím", request.getBillingAddressId()));
-
-                if (!billing.getUser().getId().equals(userId)) {
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "A számlázási cím nem a tiéd.");
-                }
-            }
+        Address shipping = addressRepository.findById(request.getShippingAddressId())
+                .orElseThrow(() -> new ResourceNotFoundException("Szállítási cím", request.getShippingAddressId()));
+        if (!shipping.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "A szállítási cím nem a tiéd.");
         }
 
-        if (billing == null) {
+        Address billing = null;
+        if (request.getBillingAddressId() != null) {
+            billing = addressRepository.findById(request.getBillingAddressId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Számlázási cím", request.getBillingAddressId()));
+            if (!billing.getUser().getId().equals(userId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "A számlázási cím nem a tiéd.");
+            }
+        } else {
             billing = shipping;
         }
 
@@ -81,13 +79,12 @@ public class OrderService {
                 .status("CREATED")
                 .totalGross(BigDecimal.ZERO)
                 .build();
-        
-        if (shipping != null) {
-            order.setShippingStreet(shipping.getStreet());
-            order.setShippingCity(shipping.getCity());
-            order.setShippingZip(shipping.getZipCode());
-            order.setShippingCountry(shipping.getCountry());
-        }
+
+        order.setShippingStreet(shipping.getStreet());
+        order.setShippingCity(shipping.getCity());
+        order.setShippingZip(shipping.getZipCode());
+        order.setShippingCountry(shipping.getCountry());
+
         if (billing != null) {
             order.setBillingStreet(billing.getStreet());
             order.setBillingCity(billing.getCity());
@@ -105,9 +102,7 @@ public class OrderService {
                     .build();
 
             order.getItems().add(oi);
-
-            BigDecimal line = oi.getUnitPrice().multiply(BigDecimal.valueOf(oi.getQuantity()));
-            total = total.add(line);
+            total = total.add(oi.getUnitPrice().multiply(BigDecimal.valueOf(oi.getQuantity())));
         }
         order.setTotalGross(total);
 
