@@ -29,8 +29,8 @@ public class PaymentController {
     @PostMapping("/{id}/pay")
     @Operation(summary = "Rendelés kifizetése")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Fizetés létrejött vagy már létezett", content = @Content(schema = @Schema(implementation = PaymentResponse.class))),
-        @ApiResponse(responseCode = "403", description = "Nem a saját rendelés"),
+        @ApiResponse(responseCode = "200", description = "Fizetés létrejött vagy már létezik", content = @Content(schema = @Schema(implementation = PaymentResponse.class))),
+        @ApiResponse(responseCode = "403", description = "Nem a saját rendelésed"),
         @ApiResponse(responseCode = "404", description = "Rendelés nem található")
     })
     public PaymentResponse payOrder(

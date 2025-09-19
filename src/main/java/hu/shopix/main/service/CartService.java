@@ -32,8 +32,7 @@ public class CartService {
 
 	@Transactional(readOnly = true) // Optimalizálás
 	public CartResponse getOpenCartByUser(Long userId) {
-		Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN")
-				.orElseThrow(() -> new ResourceNotFoundException("Kosár (OPEN)", userId));
+		Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN").orElseThrow(() -> new ResourceNotFoundException("Kosár (OPEN)", userId));
 		return mapper.toResponseCart(cart);
 	}
 	
@@ -44,8 +43,7 @@ public class CartService {
 	    }
 
 	    Cart cart = getOrCreateOpenCart(userId);
-	    Product product = productRepository.findById(request.getProductId())
-	            .orElseThrow(() -> new ResourceNotFoundException("Termék", request.getProductId()));
+	    Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Termék", request.getProductId()));
 
 	    CartItem item = cartItemRepository.findByCartIdAndProductId(cart.getId(), product.getId()).orElse(null);
 
@@ -68,12 +66,9 @@ public class CartService {
 	
 	@Transactional
 	public CartResponse updateItem(Long userId, CartItemUpdateRequest request) {
-		Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN")
-				.orElseThrow(() -> new ResourceNotFoundException("Kosár", userId));
+		Cart cart = cartRepository.findFirstByUserIdAndStatus(userId, "OPEN").orElseThrow(() -> new ResourceNotFoundException("Kosár", userId));
 
-		CartItem item = cartItemRepository
-				.findByCartIdAndProductId(cart.getId(), request.getProductId())
-				.orElseThrow(() -> new ResourceNotFoundException("Kosár tétel", request.getProductId()));
+		CartItem item = cartItemRepository.findByCartIdAndProductId(cart.getId(), request.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Kosár tétel", request.getProductId()));
 		
 		if (request.getQuantity() < 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A mennyiség nem lehet negatív.");
@@ -97,7 +92,7 @@ public class CartService {
 		return mapper.toResponseCart(cart);
 	}
 	
-	// -- Segédmetódus -- \\
+	// Segédmetódus \\
 	private Cart getOrCreateOpenCart(Long userId) {
         return cartRepository.findFirstByUserIdAndStatus(userId, "OPEN").orElseGet(() -> {
             User user = userRepository.findById(userId)

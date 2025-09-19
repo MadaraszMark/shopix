@@ -52,6 +52,34 @@ public class Order {
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+    
+    // Snapshot mezők \\
+    
+    @Column(name = "shipping_street", length = 255)
+    private String shippingStreet;
+
+    @Column(name = "shipping_city", length = 120)
+    private String shippingCity;
+
+    @Column(name = "shipping_zip", length = 32)
+    private String shippingZip;
+
+    @Column(name = "shipping_country", length = 120)
+    private String shippingCountry;
+    
+    @Column(name = "billing_street", length = 255)
+    private String billingStreet;
+
+    @Column(name = "billing_city", length = 120)
+    private String billingCity;
+
+    @Column(name = "billing_zip", length = 32)
+    private String billingZip;
+
+    @Column(name = "billing_country", length = 120)
+    private String billingCountry;
+
+
 
 }
 

@@ -25,15 +25,14 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/cart")
-@Tag(name = "Shopix - Kosár", description = "Saját kosár műveletek (JWT szükséges)")
-@SecurityRequirement(name = "bearerAuth") // az összes metódusra érvényes itt
+@Tag(name = "Shopix - Kosár", description = "Saját kosár műveletek")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService service;
     private final CurrentUser currentUser;
 
-    // ---------- ÚJ, self (/me) alapú végpontok ----------
 
     @GetMapping("/me")
     @Operation(summary = "Saját nyitott kosár lekérése")
@@ -78,7 +77,7 @@ public class CartController {
         return service.clearCart(userId);
     }
 
-    // ---------- RÉGI, {userId}-os végpontok — DEPRECATED ----------
+    // Régi  végpontok
 
     @Deprecated
     @GetMapping("/by-user/{userId}")

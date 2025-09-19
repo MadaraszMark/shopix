@@ -24,7 +24,7 @@ public class CategoryController {
 	private final CategoryService service;
 	
 	@GetMapping
-    @Operation(summary = "Összes kategória lekérése", description = "Visszaadja a kategóriák listáját lapozással és rendezéssel.")
+    @Operation(summary = "Összes kategória lekérése", description = "Visszaadja a kategóriák listáját")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Sikeres lekérés"),
         @ApiResponse(responseCode = "500", description = "Szerverhiba")

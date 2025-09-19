@@ -32,8 +32,7 @@ public class AuthController {
 	@PostMapping("/register")
     @Operation(summary = "Regisztráció",
         responses = {
-            @ApiResponse(responseCode = "201", description = "Sikeres regisztráció",
-                content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "201", description = "Sikeres regisztráció", content = @Content(schema = @Schema(implementation = AuthResponse.class))),
             @ApiResponse(responseCode = "400", description = "Hibás bemenet"),
             @ApiResponse(responseCode = "409", description = "E-mail cím már foglalt")
         })
@@ -44,8 +43,7 @@ public class AuthController {
 	@PostMapping("/login")
     @Operation(summary = "Bejelentkezés",
         responses = {
-            @ApiResponse(responseCode = "200", description = "Sikeres bejelentkezés",
-                content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "200", description = "Sikeres bejelentkezés", content = @Content(schema = @Schema(implementation = AuthResponse.class))),
             @ApiResponse(responseCode = "401", description = "Hibás e-mail cím vagy jelszó"),
             @ApiResponse(responseCode = "400", description = "Hibás bemenet")
         })

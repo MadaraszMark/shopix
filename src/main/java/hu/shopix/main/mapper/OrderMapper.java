@@ -26,15 +26,29 @@ public class OrderMapper {
 	}
 	
 	public OrderResponse toResponse(Order order) {
-		List<OrderItemResponse> items = order.getItems().stream().map(this::toResponseItem).toList();
-		
-		return OrderResponse.builder()
-				.id(order.getId())
-				.totalGross(order.getTotalGross())
-				.status(order.getStatus())
-				.createdAt(order.getCreatedAt())
-				.items(items)
-				.build();
+	    var items = order.getItems().stream()
+	            .map(this::toResponseItem)
+	            .toList();
+
+	    return OrderResponse.builder()
+	            .id(order.getId())
+	            .totalGross(order.getTotalGross())
+	            .status(order.getStatus())
+	            .createdAt(order.getCreatedAt())
+	            .items(items)
+
+	            .shippingStreet(order.getShippingStreet())
+	            .shippingCity(order.getShippingCity())
+	            .shippingZip(order.getShippingZip())
+	            .shippingCountry(order.getShippingCountry())
+
+	            .billingStreet(order.getBillingStreet())
+	            .billingCity(order.getBillingCity())
+	            .billingZip(order.getBillingZip())
+	            .billingCountry(order.getBillingCountry())
+
+	            .build();
 	}
+
 
 }

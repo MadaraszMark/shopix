@@ -26,7 +26,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @Operation(summary = "Saját profil (JWT szükséges)", security = { @SecurityRequirement(name = "bearerAuth") })
+    @Operation(summary = "Saját profil", security = { @SecurityRequirement(name = "bearerAuth") })
     @GetMapping("/me")
     public ResponseEntity<UserResponse> me(@AuthenticationPrincipal String email) {
         if (email == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Nincs bejelentkezve.");

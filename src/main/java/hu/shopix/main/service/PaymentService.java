@@ -24,23 +24,35 @@ public class PaymentService {
 
     @Transactional
     public PaymentResponse pay(Long orderId, Long userId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Rendelés", orderId));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Rendelés", orderId));
 
         if (!order.getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Nem a te rendelésed.");
         }
 
-        return paymentRepository.findByOrderId(orderId).map(mapper::toResponse).orElseGet(() -> { Payment payment = Payment.builder()
+        return paymentRepository.findByOrderId(orderId).map(existing -> {
+                    if (!"PAID".equals(order.getStatus())) {
+                        order.setStatus("PAID");
+                        orderRepository.save(order);
+                    }
+                    return mapper.toResponse(existing);
+                })
+                .orElseGet(() -> {
+                    Payment payment = Payment.builder()
                             .order(order)
                             .status("SUCCESS")
                             .providerRef("MOCK-" + orderId)
                             .build();
 
                     Payment saved = paymentRepository.save(payment);
+
                     order.setPayment(saved);
+                    order.setStatus("PAID");
+                    orderRepository.save(order);
+
                     return mapper.toResponse(saved);
                 });
+
     }
 }
 

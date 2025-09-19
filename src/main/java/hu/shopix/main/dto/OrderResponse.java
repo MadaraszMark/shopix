@@ -35,5 +35,30 @@ public class OrderResponse {
 	@Schema(description = "A rendelésben lévő tételek listája")
 	@Builder.Default
 	private List<OrderItemResponse> items = new ArrayList<>();
+	
+	@Schema(description = "Szállítási cím - utca", example = "Váci út 22.")
+	private String shippingStreet;
+
+	@Schema(description = "Szállítási cím - város", example = "Budapest")
+	private String shippingCity;
+
+	@Schema(description = "Szállítási cím - irányítószám", example = "1132")
+	private String shippingZip;
+
+	@Schema(description = "Szállítási cím - ország", example = "Magyarország")
+	private String shippingCountry;
+
+	@Schema(description = "Számlázási cím - utca", example = "Kossuth Lajos u. 5.")
+	private String billingStreet;
+
+	@Schema(description = "Számlázási cím - város", example = "Budapest")
+	private String billingCity;
+
+	@Schema(description = "Számlázási cím - irányítószám", example = "1053")
+	private String billingZip;
+
+	@Schema(description = "Számlázási cím - ország", example = "Magyarország")
+	private String billingCountry;
+
 
 }
