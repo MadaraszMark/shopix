@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.shopix.main.dto.ProductResponse;
@@ -24,16 +25,6 @@ public class ProductController {
 	
 	private final ProductService  productService;
 	
-	@GetMapping
-    @Operation(summary = "Összes termék lekérése", description = "Visszaadja a termékek listáját")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Sikeres lekérés"),
-        @ApiResponse(responseCode = "500", description = "Szerverhiba")
-    })
-	public Page<ProductResponse> getAllProducts(@ParameterObject Pageable pageable){
-		return productService.getAllProducts(pageable);
-	}
-	
 	@GetMapping("/by-id/{id}")
     @Operation(summary = "Termékek lekérése ID alapján")
     @ApiResponses({
@@ -43,6 +34,18 @@ public class ProductController {
 	public ProductResponse getProductById(@PathVariable("id") Long id) {
 		return productService.getProductById(id);
 	}
+	
+	@GetMapping
+	public Page<ProductResponse> searchProducts(
+	        @RequestParam(name = "categoryId", required = false) Long categoryId,
+	        @RequestParam(name = "name", required = false) String name,
+	        @RequestParam(name = "active", required = false) Boolean active,
+	        @ParameterObject Pageable pageable
+	) {
+	    return productService.search(categoryId, name, active, pageable);
+	}
+
+
 	
 	@GetMapping("/by-name/{name}")
     @Operation(summary = "Termékek lekérése a nevük alapján")
@@ -72,5 +75,4 @@ public class ProductController {
 	public Page<ProductResponse> getProductsByCategory(@PathVariable("categoryId") Long categoryId, @ParameterObject Pageable pageable){
 		return productService.getProductsByCategory(categoryId, pageable);
 	}
-
 }

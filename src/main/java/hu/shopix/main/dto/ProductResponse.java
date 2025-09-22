@@ -20,6 +20,9 @@ public class ProductResponse {
 	
 	@Schema(example = "101")
     private Long id;
+	
+	@Schema(example = "10")
+	private Long categoryId;
 
 	@Schema(description = "Név", example = "Iphone 15 Pro Max")
     private String name;

@@ -44,4 +44,21 @@ public class ProductService {
     public Page<ProductResponse> getProductsByCategory(Long categoryId, Pageable pageable) {
         return productRepository.findByCategoryId(categoryId, pageable).map(mapper::toResponse);
     }
+	
+	@Transactional(readOnly = true)
+    public Page<ProductResponse> search(Long categoryId, String name, Boolean active, Pageable pageable) {
+        Page<Product> page;
+
+        if (categoryId != null) {
+            page = productRepository.findByCategoryId(categoryId, pageable);
+        } else if (name != null && !name.isBlank()) {
+            page = productRepository.findByNameContainingIgnoreCase(name, pageable);
+        } else if (Boolean.TRUE.equals(active)) {
+            page = productRepository.findByActiveTrue(pageable);
+        } else {
+            page = productRepository.findAll(pageable);
+        }
+
+        return page.map(mapper::toResponse);
+    }
 }

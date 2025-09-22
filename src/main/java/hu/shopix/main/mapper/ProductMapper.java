@@ -27,6 +27,7 @@ public class ProductMapper {
                 .active(entity.isActive())
                 .createdAt(entity.getCreatedAt())
                 .categoryName(entity.getCategory() != null ? entity.getCategory().getName() : null)
+                .categoryId(entity.getCategory() != null ? entity.getCategory().getId() : null)
                 .stock(entity.getInventory() != null ? entity.getInventory().getQuantity() : null)
                 .build();
     }
