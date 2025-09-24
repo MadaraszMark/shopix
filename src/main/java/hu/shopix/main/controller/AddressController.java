@@ -20,11 +20,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@RestController // REST API vezérlő, és minden metódus JSON választ ad vissza
 @RequestMapping("/addresses")
 @Tag(name = "Shopix - Címek", description = "Saját címek kezelése")
-@SecurityRequirement(name = "bearerAuth")
-@RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth") // Végpontok JWT tokennel védettek
+@RequiredArgsConstructor // Lombok -> Automatikusan létrehozza a konstruktort
 public class AddressController {
 
     private final AddressService service;

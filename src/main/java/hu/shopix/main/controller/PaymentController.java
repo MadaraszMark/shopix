@@ -16,11 +16,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@RestController // REST API vezérlő, és minden metódus JSON választ ad vissza
 @RequestMapping("/orders")
 @Tag(name = "Shopix - Fizetések", description = "Rendelések fizetése")
-@SecurityRequirement(name = "bearerAuth")
-@RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth") // Végpontok JWT tokennel védettek
+@RequiredArgsConstructor // Lombok -> Automatikusan létrehozza a konstruktort
 public class PaymentController {
 
     private final PaymentService paymentService;

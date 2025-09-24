@@ -18,9 +18,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Users")
-@RestController
+@RestController // REST API vezérlő, és minden metódus JSON választ ad vissza
 @RequestMapping("/auth/users")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Lombok -> Automatikusan létrehozza a konstruktort
 public class UserController {
 
     private final UserRepository userRepository;

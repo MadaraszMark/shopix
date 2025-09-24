@@ -10,7 +10,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class OpenApiConfig {
-  @Bean
+  @Bean // A metódus visszatérési értékét Spring bean-ként regisztrálja
   public OpenAPI openAPI() {
     String scheme = "bearerAuth";
     return new OpenAPI()

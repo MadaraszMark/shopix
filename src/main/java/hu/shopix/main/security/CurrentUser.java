@@ -7,16 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-@Component
-@RequiredArgsConstructor
+@Component // Spring bean
+@RequiredArgsConstructor // Lombok -> automatikus konstruktor
 public class CurrentUser {
 
     private final UserRepository userRepository;
 
+    // Visszaadja a bejelentkezett felhasználó ID-ját
     public Long requireId(String email) {
         return requireEntity(email).getId();
     }
 
+    // Betölti a User entitást az email alapján.
     public User requireEntity(String email) {
         if (email == null || email.isBlank()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Nincs bejelentkezve.");

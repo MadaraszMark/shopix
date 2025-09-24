@@ -14,10 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
+@Configuration // Konfigurációs osztály, a Spring automatikusan betölti
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+	// Saját JWT filter, ami minden bejövő kérés előtt ellenőrzi a JWT tokent.
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
@@ -47,7 +48,3 @@ public class SecurityConfig {
         return cfg.getAuthenticationManager();
     }
 }
-
-
-
-

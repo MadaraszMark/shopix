@@ -20,9 +20,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RestController
+@RestController // REST API vezérlő, és minden metódus JSON választ ad vissza
 @RequestMapping("/auth")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Lombok -> Automatikusan létrehozza a konstruktort
 @Tag(name = "Shopix API", description = "Regisztrációs / bejelentkezős REST API")
 @Validated
 public class AuthController {

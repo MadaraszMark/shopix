@@ -15,8 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-@RestController
-@RequiredArgsConstructor
+@RestController // REST API vezérlő, és minden metódus JSON választ ad vissza
+@RequiredArgsConstructor // Lombok -> Automatikusan létrehozza a konstruktort
 @RequestMapping("/categories")
 @Tag(name = "Shopix - Kategóriák", description = "Publikus kategória végpontok")
 public class CategoryController {
