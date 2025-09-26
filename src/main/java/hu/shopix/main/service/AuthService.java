@@ -25,6 +25,7 @@ public class AuthService {
     private final UserMapper userMapper;
     private final JwtTokenUtil jwtTokenUtil;
     
+    // Új felhasználó regisztrációját kezeli
     public AuthResponse register(RegisterRequest request) {
     	if(userRepository.existsByEmail(request.getEmail())) {
     		throw new ResponseStatusException(HttpStatus.CONFLICT, "Ez az e-mail cím már használatban van");
@@ -39,6 +40,7 @@ public class AuthService {
     	return userMapper.toResponse(user, token);
     }
     
+    // Felhasználó belépését kezeli
     public AuthResponse login(LoginRequest request) {
     	User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,
