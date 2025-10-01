@@ -1,3 +1,7 @@
+
+// Madarász Márk - 2025 \\
+	// Copyright\\
+
 package hu.shopix.main;
 
 import org.springframework.boot.SpringApplication;
